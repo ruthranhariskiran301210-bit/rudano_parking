@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rudona Mall | Smart Parking</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --gold: #f1c40f;
+    --red: #e74c3c;
+    --green: rgba(46, 204, 113, 0.6); /* semi-transparent green */
+    --glass: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 25px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Header */
+header div.welcome { font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 6px; }
+header div.to { font-family: 'Montserrat', sans-serif; font-size: 0.5rem; opacity:0.8; margin:2px 0; }
+header div.mall { font-family: 'Playfair Display', sans-serif; font-size:2.0rem; letter-spacing:4px; }
+
+.parking-grid {
+    display: grid;
+    grid-template-columns: 150px 150px;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.spot {
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 0;  /* bigger spots */
+    font-size: 1.8rem; /* bigger text */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    user-select: none;
+    text-align: center;
+}
+
+.available { color: white; background: var(--green); border:1px solid rgba(46, 204, 113, 0.6); /* green with 10% opacity*/ }
+.reserved { background: rgba(241, 196, 15, 0.6); color: var(--gold); border: 1px solid var(--gold); }
+.parked { background: rgba(231, 76, 60, 0.6); color: var(--red); cursor: not-allowed; }
+
+.legend { font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; text-align: center; }
+.status-info { font-size: 1.2rem; margin-top: 15px; color: var(--gold); min-height: 1.5rem; text-align:center; }
+
+footer { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; opacity: 0.8; line-height: 1.6; text-align: center;}
+</style>
+</head>
+<body>
+
+<div class="glass-card">
+    <header>
+        <div class="welcome">WELCOME</div>
+        <div class="to">TO</div>
+        <div class="mall">RUDONA MALL</div>
+    </header>
+</div>
+<div class="glass-card" style="font-family:'Playfair Display', serif; font-size:1 rem; font-style:italic; width: 200px; max-width: 250px; margin: 0 auto; padding:10px 15px;">
+    Reserve your parking spot !
+</div>
+
+<div class="parking-grid" id="grid">
+    <div class="spot available" id="A1" onclick="userReserve('A1')">A1</div>
+    <div class="spot available" id="B1" onclick="userReserve('B1')">B1</div>
+    <div class="spot available" id="A2" onclick="userReserve('A2')">A2</div>
+    <div class="spot available" id="B2" onclick="userReserve('B2')">B2</div>
+    <div class="spot available" id="A3" onclick="userReserve('A3')">A3</div>
+    <div class="spot available" id="B3" onclick="userReserve('B3')">B3</div>
+</div>
+
+<div class="legend">
+    <span style="color: var(--red)">●</span> PARKED &nbsp;
+    <span style="color: var(--gold)">●</span> RESERVED &nbsp;
+    <span style="color: var(--green)">●</span> AVAILABLE
+</div>
+
+<div class="glass-card">
+    <div class="status-info" id="status-text">Select a spot above</div>
+</div>
+
+<footer>
+    Enter your parking spot along with "#" when you're at the gate
+</footer>
+
+<script>
+let countdown;
+let timeLeft = 120; // 2 minutes in seconds
+
+function startTimer(spotId) {
+    clearInterval(countdown);
+    timeLeft = 120;
+
+    countdown = setInterval(() => {
+        timeLeft--;
+        let mins = Math.floor(timeLeft / 60);
+        let secs = timeLeft % 60;
+        document.getElementById('status-text').innerText = 
+            `Reserved ${spotId} (${mins}:${secs < 10 ? '0'+secs : secs})`;
+
+        if(timeLeft <= 0) {
+            clearInterval(countdown);
+            const spot = document.getElementById(spotId);
+            if(spot.classList.contains('reserved')) {
+                spot.className = 'spot available';
+                document.getElementById('status-text').innerText = 'Reservation Expired!';
+            }
+        }
+    }, 1000);
+}
+
+function userReserve(id) {
+    const spot = document.getElementById(id);
+
+    if(spot.classList.contains('available')) {
+        spot.className = 'spot reserved';
+        startTimer(id);
+    } else if(spot.classList.contains('reserved')) {
+        spot.className = 'spot parked';
+        document.getElementById('status-text').innerText = `CAR PARKED AT ${id}`;
+        clearInterval(countdown);
+    }
+}
+</script>
+
+</body>
+</html>
