@@ -5,16 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rudona Mall | Smart Parking</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
 <style>
 :root {
     --gold: #f1c40f;
     --red: #e74c3c;
-    --green: rgba(46, 204, 113, 0.6); /* semi-transparent green */
+    --green: rgba(46, 204, 113, 0.6);
     --glass: rgba(255, 255, 255, 0.1);
 }
 
 body {
-    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80');
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=80');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -31,7 +33,7 @@ body {
 .glass-card {
     background: var(--glass);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,0.2);
     border-radius: 20px;
     padding: 25px;
     width: 100%;
@@ -40,35 +42,35 @@ body {
     margin-bottom: 20px;
 }
 
-/* Header */
-header div.welcome { font-family: 'Playfair Display', serif; font-size: 1.5rem; letter-spacing: 6px; }
-header div.to { font-family: 'Montserrat', sans-serif; font-size: 0.5rem; opacity:0.8; margin:2px 0; }
-header div.mall { font-family: 'Playfair Display', sans-serif; font-size:2.0rem; letter-spacing:4px; }
+header h1 { font-family: 'Playfair Display', serif; letter-spacing: 6px; margin: 0; font-size: 2rem; }
+header p { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
 
 .parking-grid {
     display: grid;
-    grid-template-columns: 150px 150px;
-    gap: 15px;
+    grid-template-columns: repeat(2, auto);
+    gap: 20px;
+    justify-content: center;
     margin: 20px 0;
 }
 
 .spot {
-    border: 1px solid rgba(255,255,255,0.3);
-    padding: 10px 0;  /* bigger spots */
-    font-size: 1.8rem; /* bigger text */
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    user-select: none;
+    width: 150px;
+    padding: 20px 0;
+    font-size: 2rem;
+    border-radius: 15px;
     text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    user-select: none;
 }
 
-.available { color: white; background: var(--green); border:1px solid rgba(46, 204, 113, 0.6); /* green with 10% opacity*/ }
-.reserved { background: rgba(241, 196, 15, 0.6); color: var(--gold); border: 1px solid var(--gold); }
-.parked { background: rgba(231, 76, 60, 0.6); color: var(--red); cursor: not-allowed; }
+.available { background: var(--green); color: white; }
+.reserved { background: rgba(241,196,15,0.4); color: var(--gold); border: 1px solid var(--gold); }
+.parked { background: rgba(231,76,60,0.4); color: var(--red); cursor: not-allowed; }
 
-.legend { font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; text-transform: uppercase; text-align: center; }
-.status-info { font-size: 1.2rem; margin-top: 15px; color: var(--gold); min-height: 1.5rem; text-align:center; }
+.legend { font-size: 0.7rem; text-align: center; margin-bottom: 20px; }
+.status-info { font-size: 1rem; margin-top: 10px; min-height: 1.5rem; color: var(--gold); }
 
 footer { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 20px; opacity: 0.8; line-height: 1.6; text-align: center;}
 </style>
@@ -77,22 +79,20 @@ footer { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; marg
 
 <div class="glass-card">
     <header>
-        <div class="welcome">WELCOME</div>
-        <div class="to">TO</div>
-        <div class="mall">RUDONA MALL</div>
+        <h1>WELCOME</h1>
+        <p>to</p>
+        <h1>RUDONA MALL</h1>
+        <p>Reserve Your Parking Before Entering</p>
     </header>
-</div>
-<div class="glass-card" style="font-family:'Playfair Display', serif; font-size:1 rem; font-style:italic; width: 200px; max-width: 250px; margin: 0 auto; padding:10px 15px;">
-    Reserve your parking spot !
 </div>
 
 <div class="parking-grid" id="grid">
-    <div class="spot available" id="A1" onclick="userReserve('A1')">A1</div>
-    <div class="spot available" id="B1" onclick="userReserve('B1')">B1</div>
-    <div class="spot available" id="A2" onclick="userReserve('A2')">A2</div>
-    <div class="spot available" id="B2" onclick="userReserve('B2')">B2</div>
-    <div class="spot available" id="A3" onclick="userReserve('A3')">A3</div>
-    <div class="spot available" id="B3" onclick="userReserve('B3')">B3</div>
+    <div class="spot available" id="A1" onclick="toggleSpot('A1')">A1</div>
+    <div class="spot available" id="B1" onclick="toggleSpot('B1')">B1</div>
+    <div class="spot available" id="A2" onclick="toggleSpot('A2')">A2</div>
+    <div class="spot available" id="B2" onclick="toggleSpot('B2')">B2</div>
+    <div class="spot available" id="A3" onclick="toggleSpot('A3')">A3</div>
+    <div class="spot available" id="B3" onclick="toggleSpot('B3')">B3</div>
 </div>
 
 <div class="legend">
@@ -109,43 +109,83 @@ footer { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; marg
     Enter your parking spot along with "#" when you're at the gate
 </footer>
 
-<script>
-let countdown;
-let timeLeft = 120; // 2 minutes in seconds
+<!-- Firebase Modular SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+import { getDatabase, ref, set, remove, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
-function startTimer(spotId) {
-    clearInterval(countdown);
-    timeLeft = 120;
+// --- Firebase config ---
+const firebaseConfig = {
+  apiKey: "AIzaSyBdr37QKKw_eImZcdzSMYIH52RD80dZoI0",
+  authDomain: "rudano-f14a0.firebaseapp.com",
+  databaseURL: "https://rudano-f14a0-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "rudano-f14a0",
+  storageBucket: "rudano-f14a0.firebasestorage.app",
+  messagingSenderId: "166239475355",
+  appId: "1:166239475355:web:757299a9f74265b8ffd83e"
+};
 
-    countdown = setInterval(() => {
-        timeLeft--;
-        let mins = Math.floor(timeLeft / 60);
-        let secs = timeLeft % 60;
-        document.getElementById('status-text').innerText = 
-            `Reserved ${spotId} (${mins}:${secs < 10 ? '0'+secs : secs})`;
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-        if(timeLeft <= 0) {
-            clearInterval(countdown);
-            const spot = document.getElementById(spotId);
-            if(spot.classList.contains('reserved')) {
-                spot.className = 'spot available';
-                document.getElementById('status-text').innerText = 'Reservation Expired!';
-            }
-        }
-    }, 1000);
+const spots = ['A1','B1','A2','B2','A3','B3'];
+const RESERVE_DURATION = 2 * 60 * 1000; // 2 mins
+
+// --- Listen for changes in Firebase ---
+spots.forEach(id => {
+  const spotRef = ref(db, 'spots/' + id);
+  onValue(spotRef, (snapshot) => {
+    const data = snapshot.val();
+    const el = document.getElementById(id);
+    if(!data) {
+      el.className = 'spot available';
+    } else if(data.status === 'reserved') {
+      const remaining = data.timestamp + RESERVE_DURATION - Date.now();
+      if(remaining <= 0) {
+        remove(spotRef);
+        el.className = 'spot available';
+      } else {
+        el.className = 'spot reserved';
+        startFrontendTimer(id, remaining);
+      }
+    } else if(data.status === 'parked') {
+      el.className = 'spot parked';
+    }
+  });
+});
+
+const frontendTimers = {};
+
+function startFrontendTimer(id, msLeft) {
+  clearInterval(frontendTimers[id]);
+  frontendTimers[id] = setInterval(() => {
+    msLeft -= 1000;
+    if(msLeft <= 0) {
+      clearInterval(frontendTimers[id]);
+      const spotRef = ref(db, 'spots/' + id);
+      remove(spotRef);
+      document.getElementById(id).className = 'spot available';
+      document.getElementById('status-text').innerText = `Reservation expired for ${id}`;
+    }
+  }, 1000);
 }
 
-function userReserve(id) {
-    const spot = document.getElementById(id);
+// --- Spot toggle functions ---
+function toggleSpot(id) {
+  const el = document.getElementById(id);
+  if(el.classList.contains('available')) reserveSpot(id);
+  else if(el.classList.contains('reserved')) parkSpot(id);
+}
 
-    if(spot.classList.contains('available')) {
-        spot.className = 'spot reserved';
-        startTimer(id);
-    } else if(spot.classList.contains('reserved')) {
-        spot.className = 'spot parked';
-        document.getElementById('status-text').innerText = `CAR PARKED AT ${id}`;
-        clearInterval(countdown);
-    }
+function reserveSpot(id) {
+  const now = Date.now();
+  set(ref(db, 'spots/' + id), { status: 'reserved', timestamp: now });
+  document.getElementById('status-text').innerText = `Reserved ${id}`;
+}
+
+function parkSpot(id) {
+  set(ref(db, 'spots/' + id), { status: 'parked' });
+  document.getElementById('status-text').innerText = `Car Parked at ${id}`;
 }
 </script>
 
